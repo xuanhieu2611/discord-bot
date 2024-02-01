@@ -1,0 +1,21 @@
+{
+  "name": "discord_bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "devStart": "nodemon src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.4.1",
+    "openai": "^4.26.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
+  }
+}
