@@ -1,7 +1,7 @@
 require('dotenv').config()
 
-const { Client, GatewayIntentBits, ActivityType } = require('discord.js');
-const { default: Greeting } = require('./greeting');
+const { Client, GatewayIntentBits, ActivityType, EmbedBuilder } = require('discord.js');
+const specialName = require('./SpecialName')
 
 const client = new Client({
     intents: [
@@ -29,39 +29,23 @@ client.on('messageCreate', async (msg) => {
     if (msg.content.startsWith(IGNORE_PREFIX)) return;
     if (!CHANNEL.includes(msg.channelId) && !msg.mentions.users.has(client.user.id)) return;
 
-    const message = msg.content.trimStart().toLowerCase();
+    const message = msg.content.trimStart().toLowerCase(); // Get message from user's input
 
-    if (message.includes('xhiu')){
-        msg.channel.send('xhiu dep trai!');
+    // Process Special Name
+    const res_specialName = specialName(message);
+    if (res_specialName != ''){
+        msg.channel.send(res_specialName);
         return;
     }
 
-    if (message.includes('vinh')) {
-        msg.channel.send('vinh đù!');
-        return;
-    }
-
-    if (message.includes('thang')) {
-        msg.channel.send('thang đù!');
-        return;
-    }
-
-    if (message.includes('hien')) {
-        msg.channel.send('hiển ngu!');
-        return;
-    }
-
-    if (message.includes('an')){
-        msg.channel.send('Top 1 top 2 công viên!')
-        return;
-    }
-
+    // Process build for champions
     if (message.startsWith('build')){
         const character = message.slice(6);
         msg.channel.send(`https://www.op.gg/champions/${character}/build?region=kr`);
         return;
     }
 
+    // Profile view
     if (message.startsWith('profile')){
         let name = message.slice(8);
         name = name.replaceAll(' ','%20');
@@ -70,6 +54,7 @@ client.on('messageCreate', async (msg) => {
         return;
     }
 
+    // Otherwise
     msg.channel.send('Tôi không biết 😞')
 })
 
