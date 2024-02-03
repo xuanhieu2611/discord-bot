@@ -1,7 +1,8 @@
 require('dotenv').config()
 
 const { Client, GatewayIntentBits, ActivityType, EmbedBuilder } = require('discord.js');
-const specialName = require('./SpecialName')
+const specialName = require('./SpecialName');
+const quote = require('./Quote');
 
 const client = new Client({
     intents: [
@@ -29,12 +30,25 @@ client.on('messageCreate', async (msg) => {
     if (msg.content.startsWith(IGNORE_PREFIX)) return;
     if (!CHANNEL.includes(msg.channelId) && !msg.mentions.users.has(client.user.id)) return;
 
+    if (msg.author.id == '559184297643212811' ){
+        msg.reply('Ông im mẹ đi !!!')
+        return;
+    }
+
     const message = msg.content.trimStart().toLowerCase(); // Get message from user's input
 
     // Process Special Name
     const res_specialName = specialName(message);
     if (res_specialName != ''){
         msg.channel.send(res_specialName);
+        return;
+    }
+
+    // Quote
+    if (message.includes('quote')) {
+        quote().then((data) => {
+            msg.channel.send(data);
+        })
         return;
     }
 
